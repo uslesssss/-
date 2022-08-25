@@ -1,0 +1,14 @@
+参数一 -> 字段类型
+
+1 -> PersonName       姓名
+2 -> ID                       身份证号码
+3 -> Phone                 手机号码
+4 -> Post                    邮编
+5 -> Email                   email
+6 -> Ipv4                    ip地址
+7 -> Ipv6                    IP地址
+
+参数二 -> 脱敏方法
+
+1 -> RandMap             随机映射
+2 -> Cover                   遮盖
