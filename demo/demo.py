@@ -28,9 +28,9 @@ class AllType:
     # def intercept(self):
 
     def shuffle(self):
-        temp = self.st[:]
+        temp = list(st)
         random.shuffle(temp)
-        return temp
+        return ''.join(temp)
 
     def floa(self, num=0.1):  # 只能用于数字型
         temp = int(self.st)
@@ -70,7 +70,7 @@ class PersonName(AllType):
         if n == 4: return random.choice(t3)
 
 
-class ID(AllType):
+class Id(AllType):
     def randmapping(self):
         lst = [str(i) for i in range(10)]
         lst1 = [str(i) for i in range(1, 8)]
@@ -97,9 +97,9 @@ class Phone(AllType):
 
 class Post(AllType):
     def randmapping(self):
-        lst1 = [str(i) if i >= 10 else f'0{i}' for i in range(10, 75)]
-        lst2 = [str(i) if i < 10 else f'0{i}' for i in range(25)]
-        lst3 = [str(i) if i < 10 else f'0{i}' for i in range(40)]
+        lst1 = [str(i) for i in range(10, 75)]
+        lst2 = [str(i) if i >= 10 else f'0{i}' for i in range(25)]
+        lst3 = [str(i) if i >= 10 else f'0{i}' for i in range(40)]
         return random.choice(lst1) + random.choice(lst2) + random.choice(lst3)
 
     def cover(self, a=0, b=4) -> str:
@@ -198,19 +198,24 @@ def recog(st):
     ipv4 = r'^[1-9][0-9]{0,3}\.[1-9][0-9]{0,3}\.[1-9][0-9]{0,3}\.[1-9][0-9]{0,3}$'  # ip
     passport = r'(^[EeKkGgDdSsPpHh]\\d{8}$)|(^(([Ee][a-fA-F])|([DdSsPp][Ee])|([Kk][Jj])|([Mm][Aa])|(1[45]))\\d{7}$)'  # 大陆护照
     officer = r'^[\u4E00-\u9FA5](字第)([0-9a-zA-Z]{4,8})(号?)$'  # 军官证
-    hukou = r'^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$'  # 户口本
-    rules = [name, id, phone, post, email, ipv4, passport, officer, hukou]
-    for rule in rules:
-        if re.search(rule, st):
-            return st
-    return 'alltype'
+    # hukou = r'^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$'  # 户口本
+    rules = [name, id, phone, post, email, ipv4, passport, officer]
+    lst = ['PersonName', 'Id', 'Phone', 'Post', 'Email', 'Ipv4', 'Passport', 'Officer']
+    for rule, cla in zip(rules, lst):
+        if re.match(rule, st):
+            return cla
+    return 'AllType'
 
 
-fun_name = ['randmapping', 'cover', 'md']
+fun_name = ['randmapping', 'cover', 'md', 'shuffle']
 if __name__ == '__main__':
     if sys.argv[-1] == '--help':
         print(getdata('help', 1))
     else:
         st, funname = sys.argv[1:]
-        cal = recog(st)
-        exec(f'''print({cal.capitalize()}('{st}').{funname}())''')
+        cla = recog(st)
+        if cla == 'AllType':
+            print(AllType(st).cover(2, 2))
+        else:
+            funname = fun_name[int(funname)]
+            exec(f'''print({cla}('{st}').{funname}())''')
