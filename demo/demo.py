@@ -28,7 +28,7 @@ class AllType:
     # def intercept(self):
 
     def shuffle(self):
-        temp = list(st)
+        temp = list(self.st)
         random.shuffle(temp)
         return ''.join(temp)
 
@@ -44,12 +44,6 @@ class AllType:
             return '中'
         else:
             return '高'
-
-
-class Common(AllType):
-
-    def cover(self, a=0, b=0) -> str:
-        return super().cover(a, b)
 
 
 class PersonName(AllType):
@@ -200,11 +194,13 @@ def recog(st):
     officer = r'^[\u4E00-\u9FA5](字第)([0-9a-zA-Z]{4,8})(号?)$'  # 军官证
     # hukou = r'^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$'  # 户口本
     rules = [name, id, phone, post, email, ipv4, passport, officer]
-    lst = ['PersonName', 'Id', 'Phone', 'Post', 'Email', 'Ipv4', 'Passport', 'Officer']
-    for rule, cla in zip(rules, lst):
+    lst1 = ['PersonName', 'Id', 'Phone', 'Post', 'Email', 'Ipv4', 'Passport', 'Officer']
+    lst2 = [PersonName, Id, Phone, Post, Email, Ipv4, Passport, Officer]
+
+    for rule, cla_name, cla in zip(rules, lst1, lst2):
         if re.match(rule, st):
-            return cla
-    return 'AllType'
+            return [cla, cla_name]
+    return [AllType, 'AllType']
 
 
 fun_name = ['randmapping', 'cover', 'md', 'shuffle']
@@ -214,8 +210,9 @@ if __name__ == '__main__':
     else:
         st, funname = sys.argv[1:]
         cla = recog(st)
-        if cla == 'AllType':
+        if cla[1] == 'AllType':
             print(AllType(st).cover(2, 2))
         else:
             funname = fun_name[int(funname)]
+            cla = cla[1]
             exec(f'''print({cla}('{st}').{funname}())''')
