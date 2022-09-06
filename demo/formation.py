@@ -6,7 +6,6 @@ import base64
 
 def final_deal(s):  # s为json字符串
     lsts = json.loads(s)
-    print(lsts)
     dic = {}
     for i, j in zip(lsts[0].values(), lsts[0].keys()):
         if not i:
@@ -38,15 +37,14 @@ def final_deal(s):  # s为json字符串
 
 
 if __name__ == '__main__':
-    # with open('./json.txt',encoding='utf-8-sig') as f:
-    #     s=f.read()
+    with open('./json.txt',encoding='utf-8-sig') as f:
+        s=f.read()
 
-    s = sys.argv[-1]
-    s=base64.b64decode(s)
-    s=str(s, 'utf-8')
-    print(s)
-    # s=sys.stdin.readline()
-    # print(final_deal(s))
+    # s = sys.argv[-1]
+    # s=base64.b64decode(s)
+    # s=str(s, 'utf-8')
+    re=final_deal(s)
+    print(json.dumps(re,ensure_ascii=False))
     # print(type(s))
     # lsts = json.loads(s)
     # print(type(lsts))

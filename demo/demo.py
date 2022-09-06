@@ -14,7 +14,7 @@ def samples(lst, size):  # 可重复采样
 
 class AllType:
     def __init__(self, st) -> None:
-        self.st = st
+        self.st = str(st)
 
     def cover(self, a=0, b=0) -> str:
         return self.st[:a] + '*' * (len(self.st) - a) if b == 0 else self.st[:a] + '*' * (
@@ -22,6 +22,10 @@ class AllType:
 
     def md(self):
         return hashlib.md5(self.st.encode('utf-8')).hexdigest()
+
+    def fixmapping(self):
+
+        return '冲冲冲'
 
     # def cut(self,a=0,b=0):
 
@@ -53,6 +57,7 @@ class PersonName(AllType):
 
     def randmapping(self):
         n = len(self.st)
+
         first = getdata('first')
         male = getdata('male')
         female = getdata('female')
@@ -83,7 +88,7 @@ class Id(AllType):
 class Phone(AllType):
     def randmapping(self):
         lst = [str(i) for i in range(10)]
-        return self.st[:3] + ''.join(samples(lst, 8)) if len(self.st) == 11 else self.st[:6] + ''.join(samples(lst, 8))
+        return (self.st[:3] + ''.join(samples(lst, 8))) if len(self.st) == 11 else (self.st[:6] + ''.join(samples(lst, 8)))
 
     def cover(self, a=3, b=0) -> str:
         return super().cover(a, b)
@@ -133,7 +138,7 @@ class Ipv4(AllType):
     def randmapping(self):
         temp = [str(i) for i in range(254)]
         return samples(temp, 1)[0] + '.' + samples(temp, 1)[0] + '.' + samples(temp, 1)[0] + '.' + samples(temp, 1)[
-            0] + '.'
+            0]
 
 
 class Ipv6(AllType):
@@ -198,12 +203,16 @@ def recog(st):
     lst2 = [PersonName, Id, Phone, Post, Email, Ipv4, Passport, Officer]
 
     for rule, cla_name, cla in zip(rules, lst1, lst2):
-        if re.match(rule, st):
-            return [cla, cla_name]
+        try :
+            if re.match(rule, st):
+                return [cla, cla_name]
+        except:
+            return [AllType, 'AllType']
     return [AllType, 'AllType']
 
 
-fun_name = ['randmapping', 'cover', 'md', 'shuffle']
+fun_name = ['fixmapping','randmapping', 'cover', 'md', 'shuffle']
+funname_dic={'PersonName':[0,1,2,3], 'Id':[0,1,2,3], 'Phone':[0,1,2], 'Post':[0,1], 'Email':[0,1], 'Ipv4':[1], 'Passport':[0,1,2,3], 'Officer':[0,1,2,3]}
 if __name__ == '__main__':
     if sys.argv[-1] == '--help':
         print(getdata('help', 1))
