@@ -71,15 +71,13 @@ class PersonName(AllType):
 
 class Id(AllType):
     def randmapping(self):
-        lst = [str(i) for i in range(10)]
-        lst1 = [str(i) for i in range(1, 8)]
-        lst1_ = [str(i) for i in range(1, 6)]
+        lst1=getdata('valid_citycode')
         lst2 = [str(i) for i in range(1960, 2000)]
         lst3 = [str(i) if i >= 10 else f'0{i}' for i in range(1, 13)]
-        lst4 = lst + ['x']
-        return ''.join(samples(lst1, 1)) + ''.join(samples(lst1_, 1)) + ''.join(samples(lst, 4)) + ''.join(
-            samples(lst2, 1)) + ''.join(samples(lst3, 1)) + ''.join(samples(lst3, 1)) + ''.join(
-            samples(lst, 3)) + ''.join(samples(lst4, 1))
+        lst4 = [str(i) for i in range(10)]
+        lst5 = [str(i) for i in range(10)] + ['x']
+        return ''.join(samples(lst1, 1)) +''.join(samples(lst2, 1)) + ''.join(samples(lst3, 1)) + ''.join(samples(lst3, 1)) + ''.join(
+            samples(lst4, 3)) + ''.join(samples(lst5, 1))
 
     def cover(self, a=6, b=4) -> str:
         return super().cover(a, b)
