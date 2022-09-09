@@ -37,14 +37,14 @@ def final_deal(s):  # s为json字符串
 
 
 if __name__ == '__main__':
-    with open('./json.txt',encoding='utf-8-sig') as f:
-        s=f.read()
+    with open('./json.txt', encoding='utf-8-sig') as f:
+        s = f.read()
 
     # s = sys.argv[-1]
     # s=base64.b64decode(s)
     # s=str(s, 'utf-8')
-    re=final_deal(s)
-    print(json.dumps(re,ensure_ascii=False))
+    re = final_deal(s)
+    print(json.dumps(re, ensure_ascii=False))
     # print(type(s))
     # lsts = json.loads(s)
     # print(type(lsts))

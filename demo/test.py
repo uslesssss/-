@@ -8,7 +8,7 @@ def deal_string(s, choice):  # 查询每一个数据的类型并处理
     if not s:
         return ""
     else:
-        if not isinstance(s,str):s=str(s)
+        if not isinstance(s, str): s = str(s)
         cls, cls_name = recog(s)
         # print(s,cls_name)
         if cls_name == 'AllType':
@@ -44,11 +44,11 @@ if __name__ == '__main__':
         lst = f.read()
     #
     # lst=base64.b64encode(lst.encode('utf-8'))
-    # lst = sys.argv[-1]
-    # lst = base64.b64decode(lst)
-    # lst = str(lst, 'utf-8')
+    lst = sys.argv[-1]
+    lst = base64.b64decode(lst)
+    lst = str(lst, 'utf-8')
     lst = json.loads(lst)
     print(lst)
-    final_deal(lst, [1, 2, 3],['地区'])
+    final_deal(lst, [1, 2, 3])
     print(lst)
     # print(json.dumps(lst, ensure_ascii=False))
